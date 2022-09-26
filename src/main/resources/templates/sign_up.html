@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>LifeFeed | Sign up</title>
+</head>
+<body>
+<!--/*@thymesVar id="signUpData" type="ua.kongross.lifefeed.web.dto.request.SignUpRequest"*/-->
+<form th:action="@{/sign_up}" method="post" th:object="${signUpData}">
+    <div>
+        <label for="username">Username</label>
+        <input id="username" name="username" type="text" placeholder="John_Dow" required>
+    </div>
+    <div>
+        <label for="password">Password</label>
+        <input id="password" name="password" type="password" placeholder="1234qwer" required>
+    </div>
+    <div>
+        <label for="email">Email</label>
+        <input id="email" name="email" type="email" placeholder="example@gmail.com" required>
+    </div>
+    <div>
+        <input type="submit" th:href="@{/login}" value="Create!">
+    </div>
+</form>
+</body>
+</html>

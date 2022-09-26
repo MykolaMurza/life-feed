@@ -1,4 +1,4 @@
-package ua.kongross.lifefeed.web.dto;
+package ua.kongross.lifefeed.web.dto.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

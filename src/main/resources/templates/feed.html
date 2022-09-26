@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>LifeFeed | Feed</title>
+</head>
+<body>
+<div>
+    <div th:each="post: ${feed}" style="border: black 1px solid">
+        <p th:text="${post.authorUsername}"></p>
+        <p th:text="${post.text}"></p>
+        <p th:text="${post.createdAt}"></p>
+    </div>
+</div>
+</body>
+</html>

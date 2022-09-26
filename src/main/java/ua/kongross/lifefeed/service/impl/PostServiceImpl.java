@@ -7,7 +7,7 @@ import ua.kongross.lifefeed.database.entity.Post;
 import ua.kongross.lifefeed.database.repository.PostRepository;
 import ua.kongross.lifefeed.database.repository.UserRepository;
 import ua.kongross.lifefeed.service.PostService;
-import ua.kongross.lifefeed.web.dto.CreatePostRequest;
+import ua.kongross.lifefeed.web.dto.request.CreatePostRequest;
 import ua.kongross.lifefeed.web.dto.FeedDto;
 
 import java.time.LocalDateTime;

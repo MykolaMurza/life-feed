@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ua.kongross.lifefeed.service.PostService;
-import ua.kongross.lifefeed.web.dto.CreatePostRequest;
+import ua.kongross.lifefeed.web.dto.request.CreatePostRequest;
 
 @RestController
 @RequestMapping("/post")

@@ -1,20 +1,22 @@
 package ua.kongross.lifefeed.web.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 import ua.kongross.lifefeed.service.PostService;
-import ua.kongross.lifefeed.web.dto.FeedDto;
 
-@RestController
+@Controller
 @RequestMapping("/feed")
 @RequiredArgsConstructor
 public class FeedController {
     private final PostService postService;
 
     @GetMapping
-    public FeedDto getPosts() {
-        return postService.getPosts();
+    public String getPosts(Model model) {
+        model.addAttribute("feed", postService.getPosts().getPosts());
+
+        return "feed";
     }
 }
