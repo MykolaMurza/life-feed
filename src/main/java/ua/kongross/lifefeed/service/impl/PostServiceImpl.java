@@ -2,13 +2,14 @@ package ua.kongross.lifefeed.service.impl;
 
 import com.google.common.collect.Lists;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import ua.kongross.lifefeed.database.entity.Post;
+import ua.kongross.lifefeed.database.entity.User;
 import ua.kongross.lifefeed.database.repository.PostRepository;
-import ua.kongross.lifefeed.database.repository.UserRepository;
 import ua.kongross.lifefeed.service.PostService;
-import ua.kongross.lifefeed.web.dto.request.CreatePostRequest;
 import ua.kongross.lifefeed.web.dto.FeedDto;
+import ua.kongross.lifefeed.web.dto.request.CreatePostRequest;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -18,11 +19,10 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class PostServiceImpl implements PostService {
     private final PostRepository postRepository;
-    private final UserRepository userRepository; //todo remove
 
     @Override
     public FeedDto getPosts() {
-        ArrayList<Post> posts = Lists.newArrayList(postRepository.findByOrderByCreatedAtAsc());
+        ArrayList<Post> posts = Lists.newArrayList(postRepository.findByOrderByCreatedAtDesc());
 
         ArrayList<FeedDto.FeedPost> feedPosts = posts.stream()
                 .map(post -> FeedDto.FeedPost.builder()
@@ -40,12 +40,11 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public void createPost(CreatePostRequest request) {
+    public void createPost(CreatePostRequest request, UserDetails userDetails) {
         Post post = new Post();
         post.setText(request.getText());
         post.setCreatedAt(LocalDateTime.now());
-        post.setAuthor(userRepository.findUserByUsername("username").get()); //todo remove
-
+        post.setAuthor((User) userDetails);
         postRepository.save(post);
     }
 }

@@ -6,6 +6,17 @@
 </head>
 <body>
 <div>
+    <form th:action="@{/post}" method="post">
+        <div>
+            <label for="text">Create post:</label> <br/>
+            <textarea id="text" name="text" placeholder="I am happy..." required> </textarea>
+        </div>
+        <div>
+            <input type="submit" th:href="@{/feed}" value="Post">
+        </div>
+    </form>
+</div>
+<div>
     <div th:each="post: ${feed}" style="border: black 1px solid">
         <p th:text="${post.authorUsername}"></p>
         <p th:text="${post.text}"></p>

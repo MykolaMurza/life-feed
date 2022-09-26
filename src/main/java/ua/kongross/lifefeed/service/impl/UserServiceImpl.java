@@ -2,12 +2,10 @@ package ua.kongross.lifefeed.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 import ua.kongross.lifefeed.database.entity.Role;
 import ua.kongross.lifefeed.database.entity.User;
 import ua.kongross.lifefeed.database.repository.UserRepository;
@@ -29,7 +27,7 @@ public class UserServiceImpl implements UserService {
             return userOptional.get();
         }
 
-        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "There is no user with such username!");
+        throw new UsernameNotFoundException("There is no user with such username!");
     }
 
     @Override

@@ -8,5 +8,5 @@ import java.util.Collection;
 
 @Repository
 public interface PostRepository extends PagingAndSortingRepository<Post, Long> {
-    Collection<Post> findByOrderByCreatedAtAsc();
+    Collection<Post> findByOrderByCreatedAtDesc();
 }
