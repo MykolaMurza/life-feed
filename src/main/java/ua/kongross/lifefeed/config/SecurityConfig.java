@@ -29,6 +29,7 @@ public class SecurityConfig {
                 .logout(logout -> logout
                         .logoutSuccessUrl("/")
                         .permitAll())
+                .userDetailsService(userDetailsService)
                 .headers().frameOptions().sameOrigin();
 
         return http.build();
