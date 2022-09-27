@@ -11,6 +11,7 @@ import ua.kongross.lifefeed.service.PostService;
 import ua.kongross.lifefeed.web.dto.FeedDto;
 import ua.kongross.lifefeed.web.dto.request.CreatePostRequest;
 
+import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
@@ -24,19 +25,9 @@ public class PostServiceImpl implements PostService {
     public FeedDto getPosts() {
         ArrayList<Post> posts = Lists.newArrayList(postRepository.findByOrderByCreatedAtDesc());
 
-        ArrayList<FeedDto.FeedPost> feedPosts = posts.stream()
-                .map(post -> FeedDto.FeedPost.builder()
-                        .id(post.getId())
-                        .text(post.getText())
-                        .createdAt(post.getCreatedAt())
-                        .authorUsername(post.getAuthor().getUsername())
-                        .authorId(post.getAuthor().getId())
-                        .build())
-                .collect(Collectors.toCollection(ArrayList::new));
+        ArrayList<FeedDto.FeedPost> feedPosts = posts.stream().map(post -> FeedDto.FeedPost.builder().id(post.getId()).text(post.getText()).createdAt(post.getCreatedAt()).authorUsername(post.getAuthor().getUsername()).authorId(post.getAuthor().getId()).build()).collect(Collectors.toCollection(ArrayList::new));
 
-        return FeedDto.builder()
-                .posts(feedPosts)
-                .build();
+        return FeedDto.builder().posts(feedPosts).build();
     }
 
     @Override
@@ -46,5 +37,11 @@ public class PostServiceImpl implements PostService {
         post.setCreatedAt(LocalDateTime.now());
         post.setAuthor((User) userDetails);
         postRepository.save(post);
+    }
+
+    @Transactional
+    @Override
+    public void deletePost(Long id, UserDetails userDetails) {
+        postRepository.deleteAllByIdAndAuthor(id, (User) userDetails);
     }
 }

@@ -21,6 +21,7 @@
         <p th:text="${post.authorUsername}"></p>
         <p th:text="${post.text}"></p>
         <p th:text="${post.createdAt}"></p>
+        <a th:href="@{'/post/' + ${post.id}}">DELETE ME</a>
     </div>
 </div>
 </body>

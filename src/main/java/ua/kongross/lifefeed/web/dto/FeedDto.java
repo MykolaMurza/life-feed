@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.UUID;
 
 @Data
 @NoArgsConstructor
@@ -21,7 +20,7 @@ public class FeedDto {
     @AllArgsConstructor
     @Builder
     public static class FeedPost {
-        private UUID id;
+        private Long id;
         private String text;
         private LocalDateTime createdAt;
         private String authorUsername;
