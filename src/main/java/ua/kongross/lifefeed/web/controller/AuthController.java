@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import ua.kongross.lifefeed.database.entity.User;
 import ua.kongross.lifefeed.service.UserService;
 import ua.kongross.lifefeed.web.dto.request.SignUpRequest;
 
@@ -20,7 +19,7 @@ public class AuthController {
 
     @PostMapping("/sign_up")
     public String signUp(final SignUpRequest request) {
-        User user = userService.signUpUser(request);
+        userService.signUpUser(request);
 
         return "redirect:/login";
     }

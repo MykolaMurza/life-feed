@@ -12,6 +12,8 @@ import java.util.Collection;
 public interface PostRepository extends PagingAndSortingRepository<Post, Long> {
     Collection<Post> findByOrderByCreatedAtDesc();
 
+    Collection<Post> findByAuthorOrderByCreatedAtDesc(User author);
+
     @Modifying
     void deleteAllByIdAndAuthor(Long id, User author);
 }

@@ -2,24 +2,25 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>LifeFeed | Feed</title>
+    <title>LifeFeed | Profile</title>
 </head>
 <body>
 <div>
-    <form th:action="@{/post}" method="post">
-        <div>
-            <label for="text">Create post:</label> <br/>
-            <textarea id="text" name="text" placeholder="I am happy..." required> </textarea>
-        </div>
-        <div>
-            <input type="submit" th:href="@{/feed}" value="Post">
-        </div>
-    </form>
+    <p th:text="${userData.name}"></p>
+    <p th:text="${userData.surname}"></p>
+    <p th:text="${userData.username}"></p>
+    <div>
+        <form th:action="@{'/feed/subscribe/' + ${userData.id}}" method="post">
+            <div>
+                <input type="submit" value="Subscribe!">
+            </div>
+        </form>
+    </div>
 </div>
 <div>
     <!--/*@thymesVar id="post" type="ua.kongross.lifefeed.web.dto.FeedDto.FeedPost"*/-->
     <div th:each="post: ${feed}" style="border: black 1px solid">
-        <a th:href="@{'/feed/profile/' + ${post.authorId}}"><p th:text="${post.authorUsername}"></p></a>
+        <p th:text="${post.authorUsername}"></p>
         <p th:text="${post.text}"></p>
         <p th:text="${post.createdAt}"></p>
         <a th:href="@{'/post/' + ${post.id}}">DELETE ME</a>

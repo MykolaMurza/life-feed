@@ -1,10 +1,8 @@
 package ua.kongross.lifefeed.service;
 
 import org.springframework.security.core.userdetails.UserDetails;
-import ua.kongross.lifefeed.web.dto.request.CreatePostRequest;
 import ua.kongross.lifefeed.web.dto.FeedDto;
-
-import java.util.UUID;
+import ua.kongross.lifefeed.web.dto.request.CreatePostRequest;
 
 public interface PostService {
     FeedDto getPosts();
@@ -12,4 +10,6 @@ public interface PostService {
     void createPost(CreatePostRequest request, UserDetails userDetails);
 
     void deletePost(Long id, UserDetails userDetails);
+
+    FeedDto getProfilePosts(Long id);
 }

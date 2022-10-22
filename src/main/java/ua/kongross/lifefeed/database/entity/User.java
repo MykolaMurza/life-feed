@@ -35,6 +35,16 @@ public class User implements UserDetails {
     @ToString.Exclude
     private transient List<Post> posts;
 
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "user_sub",
+            joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
+            inverseJoinColumns = {@JoinColumn(name = "sub_id", referencedColumnName = "id")}
+    )
+    private Collection<User> subscribers;
+
+    @ManyToMany(mappedBy = "subscribers", cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+    private Collection<User> users;
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
