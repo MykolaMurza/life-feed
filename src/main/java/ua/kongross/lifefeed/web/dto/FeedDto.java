@@ -25,5 +25,6 @@ public class FeedDto {
         private LocalDateTime createdAt;
         private String authorUsername;
         private Long authorId;
+        private boolean removable;
     }
 }

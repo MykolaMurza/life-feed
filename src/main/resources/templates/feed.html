@@ -3,26 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <title>LifeFeed | Feed</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
 </head>
 <body>
-<div>
-    <form th:action="@{/post}" method="post">
-        <div>
-            <label for="text">Create post:</label> <br/>
-            <textarea id="text" name="text" placeholder="I am happy..." required> </textarea>
+<div id="wrapper">
+    <div id="container">
+        <div class="publication">
+            <form method="post" th:action="@{/post}">
+                <div>
+                    <label class="post_btn_label" for="text">Create post:</label> <br/>
+                    <textarea class="post_text" id="text" name="text" placeholder="I am happy..." required> </textarea>
+                </div>
+                <div>
+                    <input class="post_btn" th:href="@{/feed}" type="submit" value="Post">
+                </div>
+            </form>
         </div>
-        <div>
-            <input type="submit" th:href="@{/feed}" value="Post">
+        <div class="feed">
+            <!--/*@thymesVar id="post" type="ua.kongross.lifefeed.web.dto.FeedDto.FeedPost"*/-->
+            <div class="post" th:each="post: ${feed}">
+                <a th:href="@{'/feed/profile/' + ${post.authorId}}"><p th:text="${post.authorUsername}"></p></a>
+                <p th:text="${post.text}"></p>
+                <p class="date" th:text="${post.createdAt}"></p>
+                <a class="del_btn" th:href="@{'/post/' + ${post.id}}" th:if="${post.removable}">DELETE</a>
+            </div>
         </div>
-    </form>
-</div>
-<div>
-    <!--/*@thymesVar id="post" type="ua.kongross.lifefeed.web.dto.FeedDto.FeedPost"*/-->
-    <div th:each="post: ${feed}" style="border: black 1px solid">
-        <a th:href="@{'/feed/profile/' + ${post.authorId}}"><p th:text="${post.authorUsername}"></p></a>
-        <p th:text="${post.text}"></p>
-        <p th:text="${post.createdAt}"></p>
-        <a th:href="@{'/post/' + ${post.id}}">DELETE ME</a>
     </div>
 </div>
 </body>

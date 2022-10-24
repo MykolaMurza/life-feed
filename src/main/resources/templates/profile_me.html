@@ -3,20 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <title>LifeFeed | Profile</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
 </head>
 <body>
-<div>
-    <p th:text="${userData.name}"></p>
-    <p th:text="${userData.surname}"></p>
-    <p th:text="${userData.username}"></p>
-</div>
-<div>
-    <!--/*@thymesVar id="post" type="ua.kongross.lifefeed.web.dto.FeedDto.FeedPost"*/-->
-    <div th:each="post: ${feed}" style="border: black 1px solid">
-        <p th:text="${post.authorUsername}"></p>
-        <p th:text="${post.text}"></p>
-        <p th:text="${post.createdAt}"></p>
-        <a th:href="@{'/post/' + ${post.id}}">DELETE ME</a>
+<div id="wrapper">
+    <div id="container">
+        <div>
+            <p th:text="${userData.name}"></p>
+            <p th:text="${userData.surname}"></p>
+            <p th:text="${userData.username}"></p>
+        </div>
+        <div>
+            <!--/*@thymesVar id="post" type="ua.kongross.lifefeed.web.dto.FeedDto.FeedPost"*/-->
+            <div class="post" th:each="post: ${feed}">
+                <p th:text="${post.authorUsername}"></p>
+                <p th:text="${post.text}"></p>
+                <p class="date" th:text="${post.createdAt}"></p>
+                <a class="del_btn" th:href="@{'/post/' + ${post.id}}">DELETE</a>
+            </div>
+        </div>
     </div>
 </div>
 </body>

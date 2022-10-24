@@ -3,28 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <title>LifeFeed | Sign up</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
 </head>
 <body>
-<!--/*@thymesVar id="signUpData" type="ua.kongross.lifefeed.web.dto.request.SignUpRequest"*/-->
-<form th:action="@{/sign_up}" method="post" th:object="${signUpData}">
-    <div>
-        <label for="username">Username</label>
-        <input id="username" name="username" type="text" placeholder="John_Dow" required>
+<div id="wrapper">
+    <div id="container">
+        <!--/*@thymesVar id="signUpData" type="ua.kongross.lifefeed.web.dto.request.SignUpRequest"*/-->
+        <form method="post" th:action="@{/sign_up}" th:object="${signUpData}">
+            <div>
+                <label for="username">Username</label>
+                <input id="username" name="username" placeholder="John_Dow" required type="text">
+            </div>
+            <div>
+                <label for="password">Password</label>
+                <input id="password" name="password" placeholder="1234qwer" required type="password">
+            </div>
+            <div>
+                <label for="email">Email</label>
+                <input id="email" name="email" placeholder="example@gmail.com" required type="email">
+            </div>
+            <div>
+                <input th:href="@{/login}" type="submit" value="Create!">
+            </div>
+        </form>
+        <div>
+            Do you already have account?<br/>Just <a th:href="@{/login}">login</a>!
+        </div>
     </div>
-    <div>
-        <label for="password">Password</label>
-        <input id="password" name="password" type="password" placeholder="1234qwer" required>
-    </div>
-    <div>
-        <label for="email">Email</label>
-        <input id="email" name="email" type="email" placeholder="example@gmail.com" required>
-    </div>
-    <div>
-        <input type="submit" th:href="@{/login}" value="Create!">
-    </div>
-</form>
-<div>
-    Do you already have account?<br/>Just <a th:href="@{/login}">login</a>!
 </div>
 </body>
 </html>

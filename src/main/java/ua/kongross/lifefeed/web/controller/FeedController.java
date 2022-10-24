@@ -23,8 +23,10 @@ public class FeedController {
     private final UserService userService;
 
     @GetMapping
-    public String getPosts(Model model) {
-        model.addAttribute("feed", postService.getPosts().getPosts());
+    public String getPosts(Model model, @AuthenticationPrincipal UserDetails userDetails) {
+        User user = (User) userDetails;
+
+        model.addAttribute("feed", postService.getPosts(user).getPosts());
 
         return "feed";
     }
@@ -33,7 +35,7 @@ public class FeedController {
     public String getMyProfile(Model model, @AuthenticationPrincipal UserDetails userDetails) {
         User user = (User) userDetails;
 
-        model.addAttribute("feed", postService.getProfilePosts(user.getId()).getPosts());
+        model.addAttribute("feed", postService.getProfilePosts(user.getId(), user).getPosts());
         model.addAttribute("userData", userService.getUserData(user.getId()));
 
         return "profile_me";
@@ -45,7 +47,7 @@ public class FeedController {
         User user = (User) userDetails;
         if (Objects.equals(id, user.getId())) return "redirect:/feed/profile/me";
 
-        model.addAttribute("feed", postService.getProfilePosts(id).getPosts());
+        model.addAttribute("feed", postService.getProfilePosts(id, user).getPosts());
         model.addAttribute("userData", userService.getUserData(id));
 
         return "profile";
