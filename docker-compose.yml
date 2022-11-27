@@ -1,0 +1,22 @@
+version: "3"
+
+services:
+  feed-app:
+    image: feed-app
+    ports:
+      - "8080:8080"
+    networks:
+      - feed-mysql
+    depends_on:
+      - mysqldb
+
+  mysqldb:
+    image: mysql:8
+    networks:
+      - feed-mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=life_feed_db
+
+networks:
+  feed-mysql:

@@ -25,7 +25,9 @@
                 <a th:href="@{'/feed/profile/' + ${post.authorId}}"><p th:text="${post.authorUsername}"></p></a>
                 <p th:text="${post.text}"></p>
                 <p class="date" th:text="${post.createdAt}"></p>
-                <a class="del_btn" th:href="@{'/post/' + ${post.id}}" th:if="${post.removable}">DELETE</a>
+                <a class="del_btn" th:href="@{'/post/' + ${post.id}}" th:if="${post.removable}">
+                    <img src="../static/img/trash.svg" th:src="@{../static/img/trash.svg}" alt="Remove"/>
+                </a>
             </div>
         </div>
     </div>

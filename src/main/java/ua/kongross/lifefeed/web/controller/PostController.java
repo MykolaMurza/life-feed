@@ -20,7 +20,8 @@ public class PostController {
 
     @PostMapping
     public String createPost(final CreatePostRequest request, @AuthenticationPrincipal UserDetails userDetails) {
-        postService.createPost(request, (User) userDetails);
+        if (!request.getText().isBlank())
+            postService.createPost(request, (User) userDetails);
 
         return "redirect:/feed";
     }
