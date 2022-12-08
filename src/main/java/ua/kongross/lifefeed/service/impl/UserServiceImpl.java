@@ -1,7 +1,6 @@
 package ua.kongross.lifefeed.service.impl;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -10,6 +9,7 @@ import ua.kongross.lifefeed.database.entity.Role;
 import ua.kongross.lifefeed.database.entity.User;
 import ua.kongross.lifefeed.database.repository.UserRepository;
 import ua.kongross.lifefeed.service.UserService;
+import ua.kongross.lifefeed.web.dto.ProfileDto;
 import ua.kongross.lifefeed.web.dto.request.SignUpRequest;
 
 import javax.transaction.Transactional;
@@ -19,8 +19,8 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-@Slf4j
 public class UserServiceImpl implements UserService {
+    public static final String NO_USER_WITH_SUCH_ID_MESSAGE = "There is no user with such ID!";
     private final UserRepository userRepository;
 
     @Override
@@ -34,7 +34,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User signUpUser(SignUpRequest request) {
+    public void signUpUser(SignUpRequest request) {
         User user = new User();
         user.setPassword(new BCryptPasswordEncoder().encode(request.getPassword()));
         user.setUsername(request.getUsername());
@@ -42,7 +42,7 @@ public class UserServiceImpl implements UserService {
         user.setRole(Role.ROLE_USER);
         user.setSubscribers(new ArrayList<>());
 
-        return userRepository.save(user);
+        userRepository.save(user);
     }
 
     @Override
@@ -52,12 +52,22 @@ public class UserServiceImpl implements UserService {
             return userOptional.get();
         }
 
-        throw new UsernameNotFoundException("There is no user with such ID!");
+        throw new UsernameNotFoundException(NO_USER_WITH_SUCH_ID_MESSAGE);
     }
 
     @Override
-    public User getUserData(Long id) {
-        return findUserById(id); //todo add privacy
+    public ProfileDto getUserData(Long id, User user) {
+        User userToWatchProfileAndFeed = findUserById(id);
+
+        return ProfileDto.builder()
+                .id(userToWatchProfileAndFeed.getId())
+                .username(userToWatchProfileAndFeed.getUsername())
+                .email(userToWatchProfileAndFeed.getEmail())
+                .name(userToWatchProfileAndFeed.getName())
+                .surname(userToWatchProfileAndFeed.getSurname())
+                .subscribers(userToWatchProfileAndFeed.getSubscribers())
+                .subscribed(user != null && user.getSubscribers().contains(userToWatchProfileAndFeed))
+                .build(); //todo add privacy
     }
 
     @Override
@@ -71,6 +81,19 @@ public class UserServiceImpl implements UserService {
                 subscribers.add(userToSub.get());
                 userRepository.save(user);
             }
-        } else throw new UsernameNotFoundException("There is no user with such ID!");
+        } else throw new UsernameNotFoundException(NO_USER_WITH_SUCH_ID_MESSAGE);
+    }
+
+    @Override
+    public void unsubscribe(Long id, UserDetails userDetails) {
+        Optional<User> userToUnsub = userRepository.findById(id);
+        if (userToUnsub.isPresent()) {
+            User user = (User) userDetails;
+            Collection<User> subscribers = user.getSubscribers();
+            if (subscribers.contains(userToUnsub.get())) {
+                subscribers.remove(userToUnsub.get());
+                userRepository.save(user);
+            }
+        } else throw new UsernameNotFoundException(NO_USER_WITH_SUCH_ID_MESSAGE);
     }
 }
