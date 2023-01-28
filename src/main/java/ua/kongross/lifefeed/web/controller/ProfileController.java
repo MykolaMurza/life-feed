@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,24 +21,18 @@ public class ProfileController {
     private final UserService userService;
 
     @GetMapping("/me")
-    public String getMyProfile(Model model, @AuthenticationPrincipal UserDetails userDetails) {
+    public String getMyProfile(@AuthenticationPrincipal UserDetails userDetails) {
         User user = (User) userDetails;
 
-        model.addAttribute("feed", postService.getProfilePosts(user.getId(), user).getPosts());
-        model.addAttribute("userData", userService.getUserData(user.getId(), null));
-
-        return "profile_me";
+        return "";
     }
 
     @GetMapping("/{id}")
-    public String getProfile(Model model, @PathVariable Long id,
+    public String getProfile(@PathVariable Long id,
                              @AuthenticationPrincipal UserDetails userDetails) {
         User user = (User) userDetails;
         if (Objects.equals(id, user.getId())) return "redirect:/feed/profile/me";
 
-        model.addAttribute("feed", postService.getProfilePosts(id, user).getPosts());
-        model.addAttribute("userData", userService.getUserData(id, user));
-
-        return "profile";
+        return "";
     }
 }

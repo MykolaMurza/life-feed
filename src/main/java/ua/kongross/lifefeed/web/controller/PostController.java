@@ -4,14 +4,16 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import ua.kongross.lifefeed.database.entity.User;
 import ua.kongross.lifefeed.service.PostService;
 import ua.kongross.lifefeed.web.dto.request.CreatePostRequest;
 
+/**
+ * Provide CRUD API for user's own posts.
+ *
+ * @author murza
+ */
 @Controller
 @RequestMapping("/post")
 @RequiredArgsConstructor
@@ -23,13 +25,21 @@ public class PostController {
         if (!request.getText().isBlank())
             postService.createPost(request, (User) userDetails);
 
-        return "redirect:/feed";
+        return "";
+    }
+
+    @PatchMapping
+    public String updatePost(final CreatePostRequest request, @AuthenticationPrincipal UserDetails userDetails) {
+        if (!request.getText().isBlank())
+            postService.updatePost(request, (User) userDetails);
+
+        return "";
     }
 
     @GetMapping("/{id}")
     public String deletePost(@PathVariable final Long id, @AuthenticationPrincipal UserDetails userDetails) {
         postService.deletePost(id, (User) userDetails);
 
-        return "redirect:/feed";
+        return "";
     }
 }
