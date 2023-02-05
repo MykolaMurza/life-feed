@@ -43,6 +43,7 @@ public class User implements UserDetails {
     private Collection<User> subscribers;
 
     @ManyToMany(mappedBy = "subscribers", cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+    @ToString.Exclude
     private Collection<User> users;
 
     @Override
