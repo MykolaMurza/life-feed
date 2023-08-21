@@ -16,4 +16,6 @@ public interface UserService extends UserDetailsService {
     void subscribe(Long id, UserDetails userDetails);
 
     void unsubscribe(Long id, UserDetails userDetails);
+
+    void block(Long id, Boolean block, UserDetails userDetails);
 }

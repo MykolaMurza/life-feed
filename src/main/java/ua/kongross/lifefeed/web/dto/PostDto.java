@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class FeedPostDto {
+public class PostDto {
     private Long id;
     private String text;
     private LocalDateTime createdAt;

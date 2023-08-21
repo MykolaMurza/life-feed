@@ -9,7 +9,7 @@ import ua.kongross.lifefeed.database.repository.PostRepository;
 import ua.kongross.lifefeed.service.FeedService;
 import ua.kongross.lifefeed.service.UserService;
 import ua.kongross.lifefeed.web.dto.FeedDto;
-import ua.kongross.lifefeed.web.dto.FeedPostDto;
+import ua.kongross.lifefeed.web.dto.PostDto;
 
 import java.util.ArrayList;
 import java.util.stream.Collectors;
@@ -21,27 +21,37 @@ public class FeedServiceImpl implements FeedService {
     private final UserService userService;
 
     @Override
-    public FeedDto getPosts(User user) {
+    public FeedDto getFeed(User user) {
         ArrayList<Post> posts = Lists.newArrayList(postRepository.findByOrderByCreatedAtDesc());
 
-        ArrayList<FeedPostDto> feedPosts = getPosts(posts, user.getId());
+        ArrayList<PostDto> feedPosts = getFeed(posts, user.getId());
 
         return FeedDto.builder().posts(feedPosts).build();
     }
 
     @Override
-    public FeedDto getProfilePosts(Long id, User user) {
+    public FeedDto getFeed(Long id, User user) {
         User userById = userService.findUserById(id);
         ArrayList<Post> posts = Lists.newArrayList(postRepository.findByAuthorOrderByCreatedAtDesc(userById));
 
-        ArrayList<FeedPostDto> feedPosts = getPosts(posts, user.getId());
+        ArrayList<PostDto> feedPosts = getFeed(posts, user.getId());
 
         return FeedDto.builder().posts(feedPosts).build();
     }
 
-    private static ArrayList<FeedPostDto> getPosts(ArrayList<Post> posts, Long id) {
+    @Override
+    public FeedDto getSubbedFeed(User user) {
+        return null;
+    }
+
+    @Override
+    public FeedDto getGlobalFeed(User user) {
+        return null;
+    }
+
+    private static ArrayList<PostDto> getFeed(ArrayList<Post> posts, Long id) {
         return posts.stream()
-                .map(post -> FeedPostDto
+                .map(post -> PostDto
                         .builder()
                         .id(post.getId())
                         .text(post.getText())

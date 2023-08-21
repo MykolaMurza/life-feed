@@ -12,5 +12,5 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 public class FeedDto {
-    private List<FeedPostDto> posts;
+    private List<PostDto> posts;
 }

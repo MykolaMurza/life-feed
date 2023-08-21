@@ -96,4 +96,9 @@ public class UserServiceImpl implements UserService {
             }
         } else throw new UsernameNotFoundException(NO_USER_WITH_SUCH_ID_MESSAGE);
     }
+
+    @Override
+    public void block(Long id, Boolean block, UserDetails userDetails) {
+
+    }
 }

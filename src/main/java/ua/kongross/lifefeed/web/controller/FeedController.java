@@ -3,11 +3,14 @@ package ua.kongross.lifefeed.web.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import ua.kongross.lifefeed.database.entity.User;
 import ua.kongross.lifefeed.service.FeedService;
 import ua.kongross.lifefeed.service.UserService;
-import ua.kongross.lifefeed.web.dto.FeedPostDto;
+import ua.kongross.lifefeed.web.dto.PostDto;
 
 import java.util.List;
 
@@ -19,19 +22,30 @@ public class FeedController {
     private final UserService userService;
 
     @GetMapping
-    public List<FeedPostDto> getPosts(@AuthenticationPrincipal UserDetails userDetails) {
+    public List<PostDto> getMyPosts(@AuthenticationPrincipal UserDetails userDetails) {
         User user = (User) userDetails;
 
-        return feedService.getPosts(user).getPosts();
+        return feedService.getFeed(user).getPosts();
     }
 
-    @PostMapping("/subscribe/{id}")
-    public void subscribe(@PathVariable Long id, @AuthenticationPrincipal UserDetails userDetails) {
-        userService.subscribe(id, userDetails);
+    @GetMapping("/{id}")
+    public List<PostDto> getUserFeed(@PathVariable final Long id, @AuthenticationPrincipal UserDetails userDetails) {
+        User user = (User) userDetails;
+
+        return feedService.getFeed(id, user).getPosts();
     }
 
-    @PostMapping("/unsubscribe/{id}")
-    public void unsubscribe(@PathVariable Long id, @AuthenticationPrincipal UserDetails userDetails) {
-        userService.unsubscribe(id, userDetails);
+    @GetMapping("/subbed")
+    public List<PostDto> getSubbedFeed(@AuthenticationPrincipal UserDetails userDetails) {
+        User user = (User) userDetails;
+
+        return feedService.getSubbedFeed(user).getPosts();
+    }
+
+    @GetMapping("/global")
+    public List<PostDto> getGlobalPosts(@AuthenticationPrincipal UserDetails userDetails) {
+        User user = (User) userDetails;
+
+        return feedService.getGlobalFeed(user).getPosts();
     }
 }

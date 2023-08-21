@@ -6,6 +6,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import ua.kongross.lifefeed.database.entity.User;
 import ua.kongross.lifefeed.service.PostService;
+import ua.kongross.lifefeed.web.dto.PostDto;
 import ua.kongross.lifefeed.web.dto.request.ComplainPostRequest;
 import ua.kongross.lifefeed.web.dto.request.CreatePostRequest;
 import ua.kongross.lifefeed.web.dto.request.UpdatePostRequest;
@@ -21,6 +22,11 @@ import ua.kongross.lifefeed.web.dto.request.VotePostRequest;
 @RequiredArgsConstructor
 public class PostController {
     private final PostService postService;
+
+    @GetMapping("/{id}")
+    public PostDto getPost(@PathVariable final Long id, @AuthenticationPrincipal UserDetails userDetails) {
+        return postService.getPost(id, (User) userDetails);
+    }
 
     @PostMapping
     public void createPost(final CreatePostRequest request, @AuthenticationPrincipal UserDetails userDetails) {
@@ -41,7 +47,7 @@ public class PostController {
         }
     }
 
-    @PostMapping
+    @PostMapping("/complain")
     public void complainAboutPost(final ComplainPostRequest request, @AuthenticationPrincipal UserDetails userDetails) {
         if (!request.getComplain().isBlank()) {
             postService.complainAboutPost(request, (User) userDetails);
@@ -51,5 +57,10 @@ public class PostController {
     @PutMapping
     public void votePost(final VotePostRequest request, @AuthenticationPrincipal UserDetails userDetails) {
         postService.votePost(request, (User) userDetails);
+    }
+
+    @PostMapping("/{id}")
+    public void share(@PathVariable final Long id, @AuthenticationPrincipal UserDetails userDetails) {
+        postService.share(id, (User) userDetails);
     }
 }

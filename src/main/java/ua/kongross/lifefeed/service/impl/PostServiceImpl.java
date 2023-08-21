@@ -7,6 +7,7 @@ import ua.kongross.lifefeed.database.entity.Post;
 import ua.kongross.lifefeed.database.entity.User;
 import ua.kongross.lifefeed.database.repository.PostRepository;
 import ua.kongross.lifefeed.service.PostService;
+import ua.kongross.lifefeed.web.dto.PostDto;
 import ua.kongross.lifefeed.web.dto.request.ComplainPostRequest;
 import ua.kongross.lifefeed.web.dto.request.CreatePostRequest;
 import ua.kongross.lifefeed.web.dto.request.UpdatePostRequest;
@@ -18,6 +19,11 @@ import java.time.LocalDateTime;
 @RequiredArgsConstructor
 public class PostServiceImpl implements PostService {
     private final PostRepository postRepository;
+
+    @Override
+    public PostDto getPost(Long id, User user) {
+        return null;
+    }
 
     @Override
     public void createPost(CreatePostRequest request, User user) {
@@ -46,6 +52,11 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public void votePost(VotePostRequest request, User userDetails) {
+
+    }
+
+    @Override
+    public void share(Long id, User userDetails) {
 
     }
 }
