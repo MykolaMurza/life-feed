@@ -1,13 +1,13 @@
 package ua.kongross.lifefeed.database.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.Hibernate;
 
-import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.Objects;
 

@@ -9,6 +9,7 @@ import ua.kongross.lifefeed.database.repository.PostRepository;
 import ua.kongross.lifefeed.service.FeedService;
 import ua.kongross.lifefeed.service.UserService;
 import ua.kongross.lifefeed.web.dto.FeedDto;
+import ua.kongross.lifefeed.web.dto.FeedPostDto;
 
 import java.util.ArrayList;
 import java.util.stream.Collectors;
@@ -19,25 +20,11 @@ public class FeedServiceImpl implements FeedService {
     private final PostRepository postRepository;
     private final UserService userService;
 
-    private static ArrayList<FeedDto.FeedPost> getPosts(ArrayList<Post> posts, Long id) {
-        return posts.stream()
-                .map(post -> FeedDto.FeedPost
-                        .builder()
-                        .id(post.getId())
-                        .text(post.getText())
-                        .createdAt(post.getCreatedAt())
-                        .authorUsername(post.getAuthor().getUsername())
-                        .authorId(post.getAuthor().getId())
-                        .removable(post.getAuthor().getId().equals(id))
-                        .build())
-                .collect(Collectors.toCollection(ArrayList::new));
-    }
-
     @Override
     public FeedDto getPosts(User user) {
         ArrayList<Post> posts = Lists.newArrayList(postRepository.findByOrderByCreatedAtDesc());
 
-        ArrayList<FeedDto.FeedPost> feedPosts = getPosts(posts, user.getId());
+        ArrayList<FeedPostDto> feedPosts = getPosts(posts, user.getId());
 
         return FeedDto.builder().posts(feedPosts).build();
     }
@@ -47,8 +34,22 @@ public class FeedServiceImpl implements FeedService {
         User userById = userService.findUserById(id);
         ArrayList<Post> posts = Lists.newArrayList(postRepository.findByAuthorOrderByCreatedAtDesc(userById));
 
-        ArrayList<FeedDto.FeedPost> feedPosts = getPosts(posts, user.getId());
+        ArrayList<FeedPostDto> feedPosts = getPosts(posts, user.getId());
 
         return FeedDto.builder().posts(feedPosts).build();
+    }
+
+    private static ArrayList<FeedPostDto> getPosts(ArrayList<Post> posts, Long id) {
+        return posts.stream()
+                .map(post -> FeedPostDto
+                        .builder()
+                        .id(post.getId())
+                        .text(post.getText())
+                        .createdAt(post.getCreatedAt())
+                        .authorUsername(post.getAuthor().getUsername())
+                        .authorId(post.getAuthor().getId())
+                        .removable(post.getAuthor().getId().equals(id))
+                        .build())
+                .collect(Collectors.toCollection(ArrayList::new));
     }
 }

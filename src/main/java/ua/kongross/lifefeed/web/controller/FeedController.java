@@ -3,16 +3,15 @@ package ua.kongross.lifefeed.web.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import ua.kongross.lifefeed.database.entity.User;
 import ua.kongross.lifefeed.service.FeedService;
 import ua.kongross.lifefeed.service.UserService;
+import ua.kongross.lifefeed.web.dto.FeedPostDto;
 
-@Controller
+import java.util.List;
+
+@RestController
 @RequestMapping("/feed")
 @RequiredArgsConstructor
 public class FeedController {
@@ -20,25 +19,19 @@ public class FeedController {
     private final UserService userService;
 
     @GetMapping
-    public String getPosts(@AuthenticationPrincipal UserDetails userDetails) {
+    public List<FeedPostDto> getPosts(@AuthenticationPrincipal UserDetails userDetails) {
         User user = (User) userDetails;
 
-        feedService.getPosts(user).getPosts();
-
-        return "";
+        return feedService.getPosts(user).getPosts();
     }
 
     @PostMapping("/subscribe/{id}")
-    public String subscribe(@PathVariable Long id, @AuthenticationPrincipal UserDetails userDetails) {
+    public void subscribe(@PathVariable Long id, @AuthenticationPrincipal UserDetails userDetails) {
         userService.subscribe(id, userDetails);
-
-        return "";
     }
 
     @PostMapping("/unsubscribe/{id}")
-    public String unsubscribe(@PathVariable Long id, @AuthenticationPrincipal UserDetails userDetails) {
+    public void unsubscribe(@PathVariable Long id, @AuthenticationPrincipal UserDetails userDetails) {
         userService.unsubscribe(id, userDetails);
-
-        return "";
     }
 }

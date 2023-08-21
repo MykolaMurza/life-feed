@@ -1,20 +1,24 @@
 package ua.kongross.lifefeed.service.impl;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ua.kongross.lifefeed.database.entity.Post;
 import ua.kongross.lifefeed.database.entity.User;
 import ua.kongross.lifefeed.database.repository.PostRepository;
 import ua.kongross.lifefeed.service.PostService;
+import ua.kongross.lifefeed.web.dto.request.ComplainPostRequest;
 import ua.kongross.lifefeed.web.dto.request.CreatePostRequest;
+import ua.kongross.lifefeed.web.dto.request.UpdatePostRequest;
+import ua.kongross.lifefeed.web.dto.request.VotePostRequest;
 
-import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 
 @Service
 @RequiredArgsConstructor
 public class PostServiceImpl implements PostService {
     private final PostRepository postRepository;
+
     @Override
     public void createPost(CreatePostRequest request, User user) {
         Post post = new Post();
@@ -31,7 +35,17 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public void updatePost(CreatePostRequest request, User userDetails) {
+    public void updatePost(UpdatePostRequest request, User userDetails) {
+
+    }
+
+    @Override
+    public void complainAboutPost(ComplainPostRequest request, User userDetails) {
+
+    }
+
+    @Override
+    public void votePost(VotePostRequest request, User userDetails) {
 
     }
 }

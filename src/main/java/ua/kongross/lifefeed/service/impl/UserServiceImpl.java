@@ -1,5 +1,6 @@
 package ua.kongross.lifefeed.service.impl;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -12,7 +13,6 @@ import ua.kongross.lifefeed.service.UserService;
 import ua.kongross.lifefeed.web.dto.ProfileDto;
 import ua.kongross.lifefeed.web.dto.request.SignUpRequest;
 
-import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Optional;
