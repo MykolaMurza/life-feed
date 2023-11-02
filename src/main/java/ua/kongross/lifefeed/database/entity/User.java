@@ -19,6 +19,7 @@ import java.util.Objects;
 @Setter
 @ToString
 @RequiredArgsConstructor
+@Table(name = "usr")
 public class User implements UserDetails {
     @Id
     @GeneratedValue
