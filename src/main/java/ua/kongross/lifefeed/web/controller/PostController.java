@@ -54,7 +54,7 @@ public class PostController {
         }
     }
 
-    @PutMapping
+    @PostMapping("/vote")
     public void votePost(final VotePostRequest request, @AuthenticationPrincipal UserDetails userDetails) {
         postService.votePost(request, (User) userDetails);
     }
