@@ -22,7 +22,7 @@ import java.util.Date;
 @Service
 @RequiredArgsConstructor
 public class AuthServiceImpl implements AuthService {
-    private static final String SECRET_KEY_VALUE = "rjv2tA4UXb2ZNd8iv8lCU97g8Exfs5KM"; // TODO: move and change
+    private static final String SECRET_KEY_VALUE = "rjv2tA4UXb2ZNd8iv8lCU97g8Exfs5KMrjv2tA4UXb2ZNd8iv8lCU97g8Exfs5KM"; // TODO: move and change
     private static final SecretKey SECRET_KEY =
             Keys.hmacShaKeyFor(SECRET_KEY_VALUE.getBytes(StandardCharsets.UTF_8));
     private static final long EXPIRATION_TIME = 864_000_000; // TODO: move, 10 days

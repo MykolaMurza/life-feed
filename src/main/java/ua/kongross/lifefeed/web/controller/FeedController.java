@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ua.kongross.lifefeed.database.entity.User;
 import ua.kongross.lifefeed.service.FeedService;
-import ua.kongross.lifefeed.service.UserService;
 import ua.kongross.lifefeed.web.dto.PostDto;
 
 import java.util.List;
@@ -19,7 +18,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class FeedController {
     private final FeedService feedService;
-    private final UserService userService;
 
     @GetMapping
     public List<PostDto> getMyPosts(@AuthenticationPrincipal UserDetails userDetails) {

@@ -20,6 +20,20 @@ public class FeedServiceImpl implements FeedService {
     private final PostRepository postRepository;
     private final UserService userService;
 
+    private static ArrayList<PostDto> getFeed(ArrayList<Post> posts, Long id) {
+        return posts.stream()
+                .map(post -> PostDto
+                        .builder()
+                        .id(post.getId())
+                        .text(post.getText())
+                        .createdAt(post.getCreatedAt())
+                        .authorUsername(post.getAuthor().getUsername())
+                        .authorId(post.getAuthor().getId())
+                        .removable(post.getAuthor().getId().equals(id))
+                        .build())
+                .collect(Collectors.toCollection(ArrayList::new));
+    }
+
     @Override
     public FeedDto getFeed(User user) {
         ArrayList<Post> posts = Lists.newArrayList(postRepository.findByOrderByCreatedAtDesc());
@@ -47,19 +61,5 @@ public class FeedServiceImpl implements FeedService {
     @Override
     public FeedDto getGlobalFeed(User user) {
         return null;
-    }
-
-    private static ArrayList<PostDto> getFeed(ArrayList<Post> posts, Long id) {
-        return posts.stream()
-                .map(post -> PostDto
-                        .builder()
-                        .id(post.getId())
-                        .text(post.getText())
-                        .createdAt(post.getCreatedAt())
-                        .authorUsername(post.getAuthor().getUsername())
-                        .authorId(post.getAuthor().getId())
-                        .removable(post.getAuthor().getId().equals(id))
-                        .build())
-                .collect(Collectors.toCollection(ArrayList::new));
     }
 }
