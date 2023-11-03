@@ -4,16 +4,12 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import ua.kongross.lifefeed.database.entity.Role;
 import ua.kongross.lifefeed.database.entity.User;
 import ua.kongross.lifefeed.database.repository.UserRepository;
 import ua.kongross.lifefeed.service.UserService;
 import ua.kongross.lifefeed.web.dto.ProfileDto;
-import ua.kongross.lifefeed.web.dto.request.SignUpRequest;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Optional;
 
@@ -34,14 +30,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void signUpUser(SignUpRequest request) {
-        User user = new User();
-        user.setPassword(new BCryptPasswordEncoder().encode(request.getPassword()));
-        user.setUsername(request.getUsername());
-        user.setEmail(request.getEmail());
-        user.setRole(Role.ROLE_USER);
-        user.setSubscribers(new ArrayList<>());
-
+    public void save(User user) {
         userRepository.save(user);
     }
 
